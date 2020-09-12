@@ -1,6 +1,7 @@
 <template>
   <div
     id="entrypoint"
+    v-if="engine !== null"
     :style="{
       border: `${engine.view.border.thickness}px solid black`
     }"
@@ -12,15 +13,15 @@
           height: `${engine.gridItemSize}px`,
           width: `${engine.gridItemSize}px`
         }"
-        v-for="(gridItem, idx) in engine.grid.flat()"
+        v-for="(gridItem, idx) in engine.grid"
         :key="idx"
-        @click.prevent="$emit(`gi-click-${idx}`)"
+        @click.prevent="$emit(`${events.GRID_ITEM_CLICK}-${idx}`)"
       >
-        <div
-          class="gameObject"
-          v-for="(gameObject, idx2) in gridItem"
-          :key="`${idx}-${idx2}`"
-        ></div>
+        <component
+          v-for="(gameItem, idx) in gridItem"
+          :is="gameItem"
+          :key="idx"
+        ></component>
       </div>
     </div>
     <div
@@ -37,15 +38,30 @@
 <script lang="ts">
 import Vue from "vue";
 import Engine from "./engine";
+import events from "./engine/events";
 
 export default Vue.extend({
   name: "Entrypoint",
   data: function() {
-    return { engine: new Engine({}) };
+    return {
+      engine: new Engine({}),
+      events
+    };
   },
   mounted: function() {
-    for (const [idx] of this.engine.grid.flat().entries()) {
-      this.$on(`gi-click-${idx}`, this.engine.gameItemClick(idx));
+    for (const [idx] of this.engine.grid.entries()) {
+      this.$on(
+        `${events.GRID_ITEM_CLICK}-${idx}`,
+        this.engine.gridItemClick(idx)
+      );
+    }
+  },
+  watch: {
+    engine: {
+      deep: true,
+      handler: function() {
+        this.$forceUpdate();
+      }
     }
   }
 });
@@ -54,6 +70,7 @@ export default Vue.extend({
 <style lang="scss">
 #entrypoint {
   .grid {
+    cursor: crosshair;
     display: flex;
     flex-wrap: wrap;
     .gridItem {
@@ -63,6 +80,7 @@ export default Vue.extend({
     }
   }
   .menu {
+    cursor: pointer;
     outline: 1px solid blue;
   }
 }

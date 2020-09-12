@@ -1,6 +1,6 @@
-export class GameItem {
+import { VueConstructor } from "vue/types/umd";
 
-}
+import Box from "../components/Box.vue";
 
 export interface EngineOptions {
   gridItemSize?: number;
@@ -10,30 +10,37 @@ export interface EngineOptions {
 export interface ViewDimensions {
   border: {
     thickness: number;
-  },
+  };
   grid: {
     height: number;
     width: number;
-  },
+  };
   menu: {
     height: number;
-  }
+  };
 }
 
 const MAX_GRID_ITEM_SIZE = 50;
 const MIN_GRID_ITEM_SIZE = 20;
 
 export default class Engine {
-  #grid: GameItem[][][];
+  grid: VueConstructor<Vue>[][];
   readonly gridItemSize: number;
   readonly view: ViewDimensions;
 
-  gameItemClick = (idx: number) => () => {
-    console.log(idx);
-  }
+  gridItemClick = (idx: number) => () => {
+    const gridItem = this.grid[idx];
+    if (gridItem.length === 0) gridItem.push(Box);
+    else gridItem.pop();
+  };
 
-  constructor({gridItemSize, menuHeight = 200}: EngineOptions) {
-    if (!gridItemSize || gridItemSize > MAX_GRID_ITEM_SIZE || gridItemSize < MIN_GRID_ITEM_SIZE) this.gridItemSize = MAX_GRID_ITEM_SIZE;
+  constructor({ gridItemSize, menuHeight = 200 }: EngineOptions) {
+    if (
+      !gridItemSize ||
+      gridItemSize > MAX_GRID_ITEM_SIZE ||
+      gridItemSize < MIN_GRID_ITEM_SIZE
+    )
+      this.gridItemSize = MAX_GRID_ITEM_SIZE;
     else this.gridItemSize = gridItemSize;
 
     const [vw, vh] = [window.innerWidth, window.innerHeight];
@@ -53,19 +60,11 @@ export default class Engine {
       menu: {
         height: menuHeight + yOffset - xOffset
       }
-    }
+    };
 
-    this.#grid = [];
-    for(let y = 0; y < yItems; y++) {
-      const row = [];
-      for (let x = 0; x < xItems; x++) {
-        row.push([]);
-      }
-      this.#grid.push(row);
+    this.grid = [];
+    for (let y = 0; y < yItems * xItems; y++) {
+      this.grid.push([]);
     }
-  }
-
-  get grid() {
-    return this.#grid;
   }
 }
