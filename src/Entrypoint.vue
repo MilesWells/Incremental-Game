@@ -2,7 +2,7 @@
   <div
     id="entrypoint"
     :style="{
-      border: `${engine.view.border.thickness}px solid blue`
+      border: `${engine.view.border.thickness}px solid black`
     }"
   >
     <div class="grid">
@@ -54,12 +54,10 @@ export default Vue.extend({
       align-items: center;
       display: flex;
       justify-content: center;
-      .gameObject {
-        border: thin solid black;
-        height: 80%;
-        width: 80%;
-      }
     }
+  }
+  .menu {
+    outline: 1px solid blue;
   }
 }
 </style>

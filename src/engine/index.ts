@@ -55,7 +55,7 @@ export default class Engine {
     for(let y = 0; y < yItems; y++) {
       const row = [];
       for (let x = 0; x < xItems; x++) {
-        row.push([[]]); // TODO: remove empty item from this push
+        row.push([]); // TODO: remove empty item from this push
       }
       this.#grid.push(row);
     }
