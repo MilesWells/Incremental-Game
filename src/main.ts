@@ -1,8 +1,8 @@
 import Vue from "vue";
-import App from "./App.vue";
+import Entrypoint from "./Entrypoint.vue";
 
 Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App)
+  render: h => h(Entrypoint)
 }).$mount("#app");
