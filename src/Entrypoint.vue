@@ -14,6 +14,7 @@
         }"
         v-for="(gridItem, idx) in engine.grid.flat()"
         :key="idx"
+        @click.prevent="$emit(`gi-click-${idx}`)"
       >
         <div
           class="gameObject"
@@ -39,9 +40,14 @@ import Engine from "./engine";
 
 export default Vue.extend({
   name: "Entrypoint",
-  data: () => ({
-    engine: new Engine({})
-  })
+  data: function() {
+    return { engine: new Engine({}) };
+  },
+  mounted: function() {
+    for (const [idx] of this.engine.grid.flat().entries()) {
+      this.$on(`gi-click-${idx}`, this.engine.gameItemClick(idx));
+    }
+  }
 });
 </script>
 

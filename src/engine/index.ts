@@ -25,8 +25,12 @@ const MIN_GRID_ITEM_SIZE = 20;
 
 export default class Engine {
   #grid: GameItem[][][];
-  gridItemSize: number;
+  readonly gridItemSize: number;
   readonly view: ViewDimensions;
+
+  gameItemClick = (idx: number) => () => {
+    console.log(idx);
+  }
 
   constructor({gridItemSize, menuHeight = 200}: EngineOptions) {
     if (!gridItemSize || gridItemSize > MAX_GRID_ITEM_SIZE || gridItemSize < MIN_GRID_ITEM_SIZE) this.gridItemSize = MAX_GRID_ITEM_SIZE;
@@ -55,7 +59,7 @@ export default class Engine {
     for(let y = 0; y < yItems; y++) {
       const row = [];
       for (let x = 0; x < xItems; x++) {
-        row.push([]); // TODO: remove empty item from this push
+        row.push([]);
       }
       this.#grid.push(row);
     }
