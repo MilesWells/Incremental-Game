@@ -2,12 +2,14 @@
   <section class="menu">
     <h1>Monies: {{ engine.currency }}</h1>
     <button
-      v-for="({ label, fn, type }, idx) in menuItems"
+      v-for="(item, idx) in menuItems"
       :key="idx"
-      @click="() => engine.updateMenuAction(fn, type)"
-      :class="{ active: type === engine.activeMenuItem }"
+      @click="() => engine.updateMenuAction(item)"
+      :class="{
+        active: item.type === engine.activeMenuItem.type
+      }"
     >
-      {{ label }}
+      {{ item.label }}
     </button>
   </section>
 </template>
@@ -15,29 +17,19 @@
 <script lang="ts">
 import Vue from "vue";
 
-import Engine, { GridItem } from "@/engine";
-import Box from "@/components/Box.vue";
+import Engine from "@/engine";
+import DefinedMenuItems from "@/assets/DefinedMenuItems";
 
 export default Vue.extend({
   name: "GameMenu",
   props: {
     engine: Engine
   },
-  data: () => ({
-    menuItems: [
-      {
-        label: "Box",
-        type: "Box",
-        fn: (engine: Engine) => (items: GridItem[]) => {
-          const boxIdx = items.findIndex(i => i.type === "Box");
-          if (boxIdx === -1) {
-            items.push({ type: "Box", component: Box });
-            engine.currency -= 100;
-          } else items.splice(boxIdx, 1);
-        }
-      }
-    ]
-  }),
+  data: () => {
+    return {
+      menuItems: [DefinedMenuItems.Box]
+    };
+  },
   watch: {
     engine: {
       deep: true,
@@ -50,7 +42,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@import "../variables.scss";
+@import "@/assets/variables.scss";
 
 .menu {
   align-items: center;

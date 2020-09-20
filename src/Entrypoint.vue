@@ -81,7 +81,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-@import "./variables.scss";
+@import "./assets/variables.scss";
 
 #entrypoint {
   .grid {

@@ -1,37 +1,9 @@
-import { VueConstructor } from "vue/types/umd";
-
-import names from "@/components/names.json";
-
-export interface EngineOptions {
-  gridItemSize?: number;
-  menuHeight?: number;
-}
-
-export interface ViewDimensions {
-  border: {
-    thickness: number;
-  };
-  grid: {
-    height: number;
-    width: number;
-  };
-  menu: {
-    height: number;
-  };
-}
-
-export interface GridItem {
-  component: VueConstructor<Vue>;
-  data?: any;
-  type: keyof typeof names;
-}
-
-type MenuFunction = (items: GridItem[]) => void;
+import { MenuItem, ViewDimensions, EngineOptions } from "@/types";
+import DefinedMenuItems from "@/assets/DefinedMenuItems";
 
 const MAX_GRID_ITEM_SIZE = 50;
 const MIN_GRID_ITEM_SIZE = 20;
 const STARTING_CURRENCY = 5000;
-const NOOP_MENU_FN: MenuFunction = items => items;
 
 export default class Engine {
   readonly gridItemSize: number;
@@ -40,24 +12,24 @@ export default class Engine {
   readonly yItems: number;
 
   currency = STARTING_CURRENCY;
-  grid: GridItem[][];
-  activeMenuAction: MenuFunction = NOOP_MENU_FN;
-  activeMenuItem?: keyof typeof names;
+  grid: MenuItem[][];
+  activeMenuItem = DefinedMenuItems.NULL;
 
-  mouseIcon?: VueConstructor<Vue>;
   mousePosition = {
     x: 0,
     y: 0
   };
 
-  gridItemClick = (idx: number) => () => this.activeMenuAction(this.grid[idx]);
+  gridItemClick = (idx: number) => () => {
+    if (this.activeMenuItem.type === "NULL") return;
 
-  updateMenuAction = (
-    fn: (engine: Engine) => MenuFunction,
-    type: keyof typeof names
-  ) => {
-    this.activeMenuAction = fn(this);
-    this.activeMenuItem = type;
+    if (this.currency >= this.activeMenuItem.cost)
+      if (this.activeMenuItem.onClick(this, this.grid[idx]))
+        this.currency -= this.activeMenuItem.cost;
+  };
+
+  updateMenuAction = (item: MenuItem) => {
+    this.activeMenuItem = item;
   };
 
   constructor({ gridItemSize, menuHeight = 200 }: EngineOptions) {
@@ -100,9 +72,7 @@ export default class Engine {
 
       switch (key) {
         case "d":
-          this.activeMenuAction = NOOP_MENU_FN;
-          this.activeMenuItem = undefined;
-          this.mouseIcon = undefined;
+          this.activeMenuItem = DefinedMenuItems.NULL;
           break;
         default:
           break;
@@ -110,8 +80,8 @@ export default class Engine {
     });
 
     // track mouse position
-    window.addEventListener("mousemove", ({ clientX, clientY }) => {
-      this.mousePosition = { x: clientX, y: clientY };
-    });
+    // window.addEventListener("mousemove", ({ clientX, clientY }) => {
+    //   this.mousePosition = { x: clientX, y: clientY };
+    // });
   }
 }
