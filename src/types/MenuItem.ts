@@ -1,7 +1,7 @@
 import Engine from "@/engine";
 import { VueConstructor } from "vue/types/umd";
 
-export type MenuItemType = "NULL" | "Box";
+export type MenuItemType = "NULL" | "Box" | "Clear";
 
 export interface MenuItem {
   component: VueConstructor<Vue> | null;

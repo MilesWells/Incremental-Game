@@ -27,7 +27,7 @@ export default Vue.extend({
   },
   data: () => {
     return {
-      menuItems: [DefinedMenuItems.Box]
+      menuItems: [DefinedMenuItems.Box, DefinedMenuItems.Clear]
     };
   },
   watch: {

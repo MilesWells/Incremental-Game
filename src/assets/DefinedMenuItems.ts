@@ -16,6 +16,19 @@ const items: { [k in MenuItemType]: MenuItem } = {
     },
     type: "Box"
   },
+  Clear: {
+    component: null,
+    cost: 0,
+    label: "Clear",
+    onClick: (engine, siblings) => {
+      const removed = siblings.splice(0);
+      engine.currency += Math.floor(
+        removed.reduce((acc, cur) => acc + cur.cost, 0) * 0.2
+      );
+      return true;
+    },
+    type: "Clear"
+  },
   NULL: {
     component: null,
     cost: 0,

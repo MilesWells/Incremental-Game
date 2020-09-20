@@ -21,6 +21,7 @@
           v-for="(gameItem, idx) in gridItem"
           :is="gameItem.component"
           :key="idx"
+          :engine="engine"
         ></component>
       </div>
     </div>
