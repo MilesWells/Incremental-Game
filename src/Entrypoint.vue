@@ -19,7 +19,7 @@
       >
         <component
           v-for="(gameItem, idx) in gridItem"
-          :is="gameItem"
+          :is="gameItem.component"
           :key="idx"
         ></component>
       </div>
@@ -30,7 +30,16 @@
         height: `${engine.view.menu.height}px`
       }"
     >
-      Menu
+      <GameMenu :engine="engine" />
+    </div>
+    <div
+      :style="{
+        position: 'fixed',
+        left: `${engine.mousePosition.x}`,
+        top: `${engine.mousePosition.y}`
+      }"
+    >
+      <component :is="engine.mouseIcon"></component>
     </div>
   </div>
 </template>
@@ -39,9 +48,13 @@
 import Vue from "vue";
 import Engine from "./engine";
 import events from "./engine/events";
+import GameMenu from "./components/GameMenu.vue";
 
 export default Vue.extend({
   name: "Entrypoint",
+  components: {
+    GameMenu
+  },
   data: function() {
     return {
       engine: new Engine({}),
@@ -68,6 +81,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+@import "./variables.scss";
+
 #entrypoint {
   .grid {
     cursor: crosshair;
@@ -80,8 +95,8 @@ export default Vue.extend({
     }
   }
   .menu {
+    background-color: $bg;
     cursor: pointer;
-    outline: 1px solid blue;
   }
 }
 </style>
