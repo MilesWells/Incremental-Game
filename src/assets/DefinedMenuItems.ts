@@ -1,10 +1,12 @@
 import { MenuItem, MenuItemType } from "@/types";
 import Box from "@/components/Box.vue";
+import BoxIcon from "@/icons/BoxIcon.vue";
 
 const items: { [k in MenuItemType]: MenuItem } = {
   Box: {
     component: Box,
     cost: 100,
+    icon: BoxIcon,
     label: "Box",
     onClick: (_, siblings) => {
       const boxIdx = siblings.findIndex(i => i.type === "Box");

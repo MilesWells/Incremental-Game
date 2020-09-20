@@ -80,8 +80,8 @@ export default class Engine {
     });
 
     // track mouse position
-    // window.addEventListener("mousemove", ({ clientX, clientY }) => {
-    //   this.mousePosition = { x: clientX, y: clientY };
-    // });
+    window.addEventListener("mousemove", ({ clientX, clientY }) => {
+      this.mousePosition = { x: clientX, y: clientY };
+    });
   }
 }

@@ -32,15 +32,14 @@
     >
       <GameMenu :engine="engine" />
     </div>
-    <div
+    <component
+      :is="engine.activeMenuItem.icon"
       :style="{
         position: 'fixed',
-        left: `${engine.mousePosition.x}`,
-        top: `${engine.mousePosition.y}`
+        left: `${engine.mousePosition.x + 10}px`,
+        top: `${engine.mousePosition.y + 10}px`
       }"
-    >
-      <component :is="engine.mouseIcon"></component>
-    </div>
+    ></component>
   </div>
 </template>
 
