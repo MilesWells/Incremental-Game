@@ -1,8 +1,6 @@
 <template>
   <section class="menu">
     <h1>Monies: {{ engine.currency }}</h1>
-    <h1>x: {{ engine.mousePosition.x }}</h1>
-    <h1>y: {{ engine.mousePosition.y }}</h1>
     <button
       v-for="(item, idx) in menuItems"
       :key="idx"
@@ -62,6 +60,7 @@ export default Vue.extend({
     color: $fg;
     cursor: pointer;
     font-size: 3em;
+    padding: 0.2em;
 
     &.active {
       background-color: $secondary;

@@ -33,9 +33,10 @@
       <GameMenu :engine="engine" />
     </div>
     <component
+      class="tooltip"
+      :v-if="engine.activeMenuItem.icon"
       :is="engine.activeMenuItem.icon"
       :style="{
-        position: 'fixed',
         left: `${engine.mousePosition.x + 10}px`,
         top: `${engine.mousePosition.y + 10}px`
       }"
@@ -84,6 +85,7 @@ export default Vue.extend({
 
 #entrypoint {
   .grid {
+    background-color: $fg;
     cursor: crosshair;
     display: flex;
     flex-wrap: wrap;
@@ -96,6 +98,14 @@ export default Vue.extend({
   .menu {
     background-color: $bg;
     cursor: pointer;
+  }
+  .tooltip {
+    background-color: $fg;
+    border-radius: 0.15em;
+    border: thin solid $bg;
+    color: $bg;
+    padding: 0.2em;
+    position: fixed;
   }
 }
 </style>
