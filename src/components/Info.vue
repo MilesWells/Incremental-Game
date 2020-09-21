@@ -30,12 +30,21 @@ export default Vue.extend({
 });
 </script>
 <style lang="scss" scoped>
+@import "@/assets/variables.scss";
 .info {
+  background-color: $fg;
+  border-radius: 0.2em;
+  border: thin solid $bg;
+  padding: 0.5em;
   position: fixed;
 
   .item {
     display: flex;
     flex-direction: column;
+
+    &:not(:last-child) {
+      margin-bottom: 0.25em;
+    }
   }
 }
 </style>
