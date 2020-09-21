@@ -1,7 +1,7 @@
 import { MenuItem, MenuItemType } from "@/types";
-import Box from "@/components/Box.vue";
-import BoxIcon from "@/icons/BoxIcon.vue";
-import ClearIcon from "@/icons/ClearIcon.vue";
+import Box from "@/components/menuItems/box/Box.vue";
+import BoxIcon from "@/components/menuItems/box/BoxIcon.vue";
+import ClearIcon from "@/components/menuItems/clear/ClearIcon.vue";
 
 const items: { [k in MenuItemType]: MenuItem } = {
   Box: {
