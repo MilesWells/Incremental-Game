@@ -1,6 +1,7 @@
 import { MenuItem, MenuItemType } from "@/types";
 import Box from "@/components/Box.vue";
 import BoxIcon from "@/icons/BoxIcon.vue";
+import ClearIcon from "@/icons/ClearIcon.vue";
 
 const items: { [k in MenuItemType]: MenuItem } = {
   Box: {
@@ -17,8 +18,8 @@ const items: { [k in MenuItemType]: MenuItem } = {
     type: "Box"
   },
   Clear: {
-    component: null,
     cost: 0,
+    icon: ClearIcon,
     label: "Clear",
     onClick: (engine, siblings) => {
       const removed = siblings.splice(0);
@@ -30,7 +31,6 @@ const items: { [k in MenuItemType]: MenuItem } = {
     type: "Clear"
   },
   NULL: {
-    component: null,
     cost: 0,
     label: "",
     onClick: () => false,

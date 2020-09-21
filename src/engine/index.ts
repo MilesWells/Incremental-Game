@@ -1,5 +1,6 @@
 import { MenuItem, ViewDimensions, EngineOptions } from "@/types";
 import DefinedMenuItems from "@/assets/DefinedMenuItems";
+import { VueConstructor } from "vue/types/umd";
 
 const MAX_GRID_ITEM_SIZE = 50;
 const MIN_GRID_ITEM_SIZE = 20;
@@ -14,15 +15,26 @@ export default class Engine {
   currency = STARTING_CURRENCY;
   grid: MenuItem[][];
   activeMenuItem = DefinedMenuItems.NULL;
+  infoPanelComponents: VueConstructor<Vue>[] = [];
 
   mousePosition = {
     x: 0,
     y: 0
   };
 
-  gridItemClick = (idx: number) => () => {
-    if (this.activeMenuItem.type === "NULL") return;
+  gridItemClick = (idx: number) => {
+    console.log(idx);
+    // no menu item selected, show info panel
+    if (this.activeMenuItem.type === "NULL") {
+      this.infoPanelComponents = this.grid[idx].reduce((acc, cur) => {
+        if (cur.component) acc.push(cur.component);
+        return acc;
+      }, [] as VueConstructor<Vue>[]);
 
+      return;
+    }
+
+    // menu item selected, activate if player can pay cost
     if (this.currency >= this.activeMenuItem.cost)
       if (this.activeMenuItem.onClick(this, this.grid[idx]))
         this.currency -= this.activeMenuItem.cost;

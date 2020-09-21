@@ -1,12 +1,13 @@
 import Engine from "@/engine";
-import { VueConstructor } from "vue/types/umd";
+import Vue, { VueConstructor } from "vue";
 
 export type MenuItemType = "NULL" | "Box" | "Clear";
 
 export interface MenuItem {
-  component: VueConstructor<Vue> | null;
+  component?: VueConstructor<Vue>;
   cost: number;
   icon?: VueConstructor<Vue>;
+  infoComponent?: VueConstructor<Vue>;
   label: string;
   onClick: (engine: Engine, siblings: MenuItem[]) => boolean;
   type: MenuItemType;

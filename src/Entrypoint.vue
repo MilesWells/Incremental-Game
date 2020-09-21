@@ -50,11 +50,13 @@ import Vue from "vue";
 import Engine from "./engine";
 import events from "./engine/events";
 import GameMenu from "./components/GameMenu.vue";
+import Info from "./components/Info.vue";
 
 export default Vue.extend({
   name: "Entrypoint",
   components: {
-    GameMenu
+    GameMenu,
+    Info
   },
   data: function() {
     return {
@@ -64,10 +66,10 @@ export default Vue.extend({
   },
   mounted: function() {
     for (const [idx] of this.engine.grid.entries()) {
-      this.$on(
-        `${events.GRID_ITEM_CLICK}-${idx}`,
-        this.engine.gridItemClick(idx)
-      );
+      this.$on(`${events.GRID_ITEM_CLICK}-${idx}`, () => {
+        this.engine.gridItemClick(idx);
+        this.$emit(events.SHOW_INFO_PANEL);
+      });
     }
   },
   watch: {
