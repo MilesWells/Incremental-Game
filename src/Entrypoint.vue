@@ -42,6 +42,7 @@
         top: `${engine.mousePosition.y + 10}px`
       }"
     ></component>
+    <Info :engine="engine" />
   </div>
 </template>
 
@@ -68,7 +69,6 @@ export default Vue.extend({
     for (const [idx] of this.engine.grid.entries()) {
       this.$on(`${events.GRID_ITEM_CLICK}-${idx}`, () => {
         this.engine.gridItemClick(idx);
-        this.$emit(events.SHOW_INFO_PANEL);
       });
     }
   },

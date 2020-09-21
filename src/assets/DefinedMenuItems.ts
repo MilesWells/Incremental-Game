@@ -1,6 +1,7 @@
 import { MenuItem, MenuItemType } from "@/types";
 import Box from "@/components/menuItems/box/Box.vue";
 import BoxIcon from "@/components/menuItems/box/BoxIcon.vue";
+import BoxInfo from "@/components/menuItems/box/BoxInfo.vue";
 import ClearIcon from "@/components/menuItems/clear/ClearIcon.vue";
 
 const items: { [k in MenuItemType]: MenuItem } = {
@@ -8,6 +9,7 @@ const items: { [k in MenuItemType]: MenuItem } = {
     component: Box,
     cost: 100,
     icon: BoxIcon,
+    infoComponent: BoxInfo,
     label: "Box",
     onClick: (_, siblings) => {
       const boxIdx = siblings.findIndex(i => i.type === "Box");

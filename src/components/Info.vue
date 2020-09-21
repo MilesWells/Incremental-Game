@@ -1,39 +1,36 @@
 <template>
-  <div class="info" v-show="visible">
-    <button @click="this.visible = false">Close</button>
-    <div class="item" v-for="(item, idx) in items" :key="idx">
+  <div
+    class="info"
+    v-show="engine.infoPanelComponents.length > 0"
+    :style="{
+      left: `${engine.infoPosition.x}px`,
+      top: `${engine.infoPosition.y}px`
+    }"
+  >
+    <button @click="engine.infoPanelComponents = []">Close</button>
+    <div
+      class="item"
+      v-for="(item, idx) in engine.infoPanelComponents"
+      :key="idx"
+    >
       <component :is="item" />
-      <hr v-if="idx < items.length - 1" />
+      <hr v-if="idx < engine.infoPanelComponents.length - 1" />
     </div>
   </div>
 </template>
 <script lang="ts">
-import events from "@/engine/events";
-import Vue, { VueConstructor } from "vue";
+import Engine from "@/engine";
+import Vue from "vue";
 
 export default Vue.extend({
   name: "Info",
   props: {
-    items: [] as VueConstructor<Vue>[]
-  },
-  data: function() {
-    return { visible: false };
-  },
-  mounted: function() {
-    this.$on(events.SHOW_INFO_PANEL, () => {
-      this.visible = true;
-    });
-
-    this.$on(events.HIDE_INFO_PANEL, () => {
-      this.visible = false;
-    });
+    engine: Engine
   }
 });
 </script>
 <style lang="scss" scoped>
 .info {
-  display: flex;
-  flex-direction: column;
   position: fixed;
 
   .item {

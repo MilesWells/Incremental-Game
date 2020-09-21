@@ -22,12 +22,20 @@ export default class Engine {
     y: 0
   };
 
+  infoPosition = {
+    x: 0,
+    y: 0
+  };
+
   gridItemClick = (idx: number) => {
-    console.log(idx);
     // no menu item selected, show info panel
     if (this.activeMenuItem.type === "NULL") {
+      this.infoPosition = {
+        x: this.mousePosition.x,
+        y: this.mousePosition.y
+      };
       this.infoPanelComponents = this.grid[idx].reduce((acc, cur) => {
-        if (cur.component) acc.push(cur.component);
+        if (cur.infoComponent) acc.push(cur.infoComponent);
         return acc;
       }, [] as VueConstructor<Vue>[]);
 
@@ -85,6 +93,7 @@ export default class Engine {
       switch (key) {
         case "d":
           this.activeMenuItem = DefinedMenuItems.NULL;
+          this.infoPanelComponents = [];
           break;
         default:
           break;
